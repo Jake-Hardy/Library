@@ -39,9 +39,10 @@ namespace Library.WebApi.Controllers
             return Ok(response);
         }
 
-        [HttpDelete]
-        public async Task<ActionResult<DeleteBookResponse>> Delete(DeleteBookRequest request, CancellationToken cancellationToken)
+        [HttpDelete("{id:guid}")]
+        public async Task<ActionResult<DeleteBookResponse>> Delete(Guid id, CancellationToken cancellationToken)
         {
+            DeleteBookRequest request = new DeleteBookRequest(id);
             var response = await _mediator.Send(request, cancellationToken);
             return Ok(response);
         }
