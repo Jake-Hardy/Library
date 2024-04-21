@@ -17,17 +17,20 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
 
     public void Create(T entity)
     {
+        entity.DateCreated = DateTimeOffset.UtcNow;
         Context.Add(entity);
     }
 
     public void Update(T entity) 
     {
+        entity.DateUpdated = DateTimeOffset.UtcNow;
         Context.Update(entity);
     }
 
     public void Delete(T entity) 
     {
         entity.DateDeleted = DateTimeOffset.UtcNow;
+        entity.DateUpdated = DateTimeOffset.UtcNow;
         Context.Update(entity);
     }
 
@@ -38,6 +41,6 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
 
     public Task<List<T>> GetAll(CancellationToken cancellationToken)
     {
-        return Context.Set<T>().ToListAsync(cancellationToken);
+        return Context.Set<T>().Where(x => x.DateDeleted == null).ToListAsync(cancellationToken);
     }
 }

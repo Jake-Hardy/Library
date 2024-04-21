@@ -1,4 +1,5 @@
 ﻿using Library.Application.Features.BookFeatures.CreateBook;
+using Library.Application.Features.BookFeatures.DeleteBook;
 using Library.Application.Features.BookFeatures.GetAllBook;
 using Library.Application.Features.BookFeatures.UpdateBook;
 using MediatR;
@@ -33,6 +34,13 @@ namespace Library.WebApi.Controllers
 
         [HttpPut]
         public async Task<ActionResult<UpdateBookResponse>> Update(UpdateBookRequest request, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(request, cancellationToken);
+            return Ok(response);
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult<DeleteBookResponse>> Delete(DeleteBookRequest request, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(request, cancellationToken);
             return Ok(response);
