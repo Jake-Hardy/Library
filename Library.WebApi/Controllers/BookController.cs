@@ -1,6 +1,6 @@
 ﻿using Library.Application.Features.BookFeatures.CreateBook;
 using Library.Application.Features.BookFeatures.GetAllBook;
-
+using Library.Application.Features.BookFeatures.UpdateBook;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +26,13 @@ namespace Library.WebApi.Controllers
 
         [HttpPost]
         public async Task<ActionResult<CreateBookResponse>> Create(CreateBookRequest request, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(request, cancellationToken);
+            return Ok(response);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<UpdateBookResponse>> Update(UpdateBookRequest request, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(request, cancellationToken);
             return Ok(response);
